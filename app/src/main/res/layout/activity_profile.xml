@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -18,7 +19,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/ic_arrow_back"
             app:title="Mi Perfil"
             app:titleTextAppearance="@style/TextAppearance.App.Headline2"
             app:titleCentered="true"/>
@@ -53,68 +53,155 @@
                         android:layout_height="wrap_content"
                         android:text="Información Personal"
                         android:textAppearance="@style/TextAppearance.App.Headline2"
-                        android:layout_marginBottom="16dp"/>
+                        android:layout_marginBottom="24dp"/>
 
-                    <!-- Campo de Peso -->
-                    <com.google.android.material.textfield.TextInputLayout
+                    <!-- Peso -->
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:hint="Peso"
-                        app:endIconDrawable="@drawable/ic_weight"
-                        app:endIconMode="custom"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="24dp">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/weightInput"
-                            android:layout_width="match_parent"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"/>
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                    <!-- Campo de Altura -->
-                    <com.google.android.material.textfield.TextInputLayout
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Peso"
+                                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                                android:textColor="@color/text_secondary"/>
+
+                            <TextView
+                                android:id="@+id/weightValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                                android:textColor="@color/text_primary"
+                                tools:text="70.5 kg"/>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_weight"
+                            android:layout_gravity="center_vertical"
+                            app:tint="@color/text_secondary"/>
+                    </LinearLayout>
+
+                    <!-- Altura -->
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:hint="Altura"
-                        app:endIconDrawable="@drawable/ic_height"
-                        app:endIconMode="custom"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="24dp">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/heightInput"
-                            android:layout_width="match_parent"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"/>
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                    <!-- Campo de Edad -->
-                    <com.google.android.material.textfield.TextInputLayout
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Altura"
+                                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                                android:textColor="@color/text_secondary"/>
+
+                            <TextView
+                                android:id="@+id/heightValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                                android:textColor="@color/text_primary"
+                                tools:text="175 cm"/>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_height"
+                            android:layout_gravity="center_vertical"
+                            app:tint="@color/text_secondary"/>
+                    </LinearLayout>
+
+                    <!-- Edad -->
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:hint="Edad"
-                        app:endIconDrawable="@drawable/ic_calendar"
-                        app:endIconMode="custom"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="24dp">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/ageInput"
-                            android:layout_width="match_parent"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:inputType="number"/>
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                    <!-- Selector de Género -->
-                    <com.google.android.material.textfield.TextInputLayout
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Edad"
+                                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                                android:textColor="@color/text_secondary"/>
+
+                            <TextView
+                                android:id="@+id/ageValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                                android:textColor="@color/text_primary"
+                                tools:text="25 años"/>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_calendar"
+                            android:layout_gravity="center_vertical"
+                            app:tint="@color/text_secondary"/>
+                    </LinearLayout>
+
+                    <!-- Género -->
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:hint="Género"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="16dp">
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Género"
+                                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                                android:textColor="@color/text_secondary"/>
+
+                            <TextView
+                                android:id="@+id/genderValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                                android:textColor="@color/text_primary"
+                                tools:text="Masculino"/>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_person"
+                            android:layout_gravity="center_vertical"
+                            app:tint="@color/text_secondary"/>
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -122,8 +209,7 @@
             <com.google.android.material.card.MaterialCardView
                 style="@style/Widget.App.CardView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -135,80 +221,135 @@
                         android:layout_height="wrap_content"
                         android:text="Objetivos"
                         android:textAppearance="@style/TextAppearance.App.Headline2"
-                        android:layout_marginBottom="16dp"/>
+                        android:layout_marginBottom="24dp"/>
 
                     <!-- Nivel de Actividad -->
-                    <com.google.android.material.textfield.TextInputLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:hint="Nivel de Actividad"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="24dp">
 
-                        <AutoCompleteTextView
-                            android:id="@+id/activityLevelDropdown"
-                            android:layout_width="match_parent"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:inputType="none"/>
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Nivel de Actividad"
+                                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                                android:textColor="@color/text_secondary"/>
+
+                            <TextView
+                                android:id="@+id/activityLevelValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                                android:textColor="@color/text_primary"
+                                tools:text="Moderado (ejercicio 3-5 días/semana)"/>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_exercise"
+                            android:layout_gravity="center_vertical"
+                            app:tint="@color/text_secondary"/>
+                    </LinearLayout>
 
                     <!-- Objetivo de Peso -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Objetivo de Peso"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                        android:layout_marginBottom="8dp"/>
-
-                    <RadioGroup
-                        android:id="@+id/weightGoalRadioGroup"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="24dp">
 
-                        <com.google.android.material.radiobutton.MaterialRadioButton
-                            android:id="@+id/goalLose"
-                            android:layout_width="match_parent"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Bajar de peso"
-                            android:padding="8dp"/>
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                        <com.google.android.material.radiobutton.MaterialRadioButton
-                            android:id="@+id/goalMaintain"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Mantener peso"
-                            android:padding="8dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Objetivo de Peso"
+                                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                                android:textColor="@color/text_secondary"/>
 
-                        <com.google.android.material.radiobutton.MaterialRadioButton
-                            android:id="@+id/goalGain"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Aumentar peso"
-                            android:padding="8dp"/>
-                    </RadioGroup>
+                            <TextView
+                                android:id="@+id/weightGoalValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                                android:textColor="@color/text_primary"
+                                tools:text="Bajar de peso"/>
+                        </LinearLayout>
 
-                    <AutoCompleteTextView
-                        android:id="@+id/genderDropdown"
+                        <ImageView
+                            android:id="@+id/weightGoalIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_trending_down"
+                            android:layout_gravity="center_vertical"
+                            app:tint="@color/text_secondary"/>
+                    </LinearLayout>
+
+                    <!-- Calorías Objetivo -->
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="none" />
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="16dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Calorías Objetivo"
+                                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                                android:textColor="@color/text_secondary"/>
+
+                            <TextView
+                                android:id="@+id/targetCaloriesValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                                android:textColor="@color/text_primary"
+                                tools:text="2,000 kcal/día"/>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_food"
+                            android:layout_gravity="center_vertical"
+                            app:tint="@color/text_secondary"/>
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Botón Guardar -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/saveButton"
-                style="@style/Widget.App.Button"
+                android:id="@+id/logoutButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Guardar Perfil"
-                android:layout_marginTop="8dp"
-                app:icon="@drawable/ic_save"/>
-
+                android:layout_marginTop="24dp"
+                android:text="Cerrar Sesión"
+                android:textColor="@color/error"
+                app:strokeColor="@color/error"
+                app:icon="@drawable/ic_logout"
+                app:iconTint="@color/error"/>
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
-
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

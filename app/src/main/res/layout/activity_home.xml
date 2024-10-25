@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".MainActivity">
+    tools:context=".HomeActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -26,6 +26,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="80dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -53,17 +54,48 @@
                         android:textAppearance="@style/TextAppearance.App.Headline2"
                         android:layout_marginBottom="16dp"/>
 
-                    <!-- Círculo de progreso personalizado -->
-                    <com.google.android.material.progressindicator.CircularProgressIndicator
-                        android:id="@+id/caloriesProgress"
+                    <!-- Círculo de progreso con texto central -->
+                    <FrameLayout
                         android:layout_width="200dp"
                         android:layout_height="200dp"
-                        android:layout_gravity="center"
-                        android:progress="65"
-                        app:indicatorSize="200dp"
-                        app:trackThickness="16dp"
-                        app:trackColor="@color/divider"
-                        app:indicatorColor="@color/calories_remaining"/>
+                        android:layout_gravity="center">
+
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:id="@+id/caloriesProgress"
+                            android:layout_width="200dp"
+                            android:layout_height="200dp"
+                            android:layout_gravity="center"
+                            android:progress="65"
+                            app:indicatorSize="200dp"
+                            app:trackThickness="16dp"
+                            app:trackColor="@color/divider"
+                            app:indicatorColor="@color/calories_remaining"/>
+
+                        <!-- Texto central -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_gravity="center"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/circleEffectiveCalories"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1,106"
+                                android:textSize="32sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/calories_remaining"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="kcal"
+                                android:textSize="14sp"
+                                android:textColor="@color/text_secondary"/>
+                        </LinearLayout>
+                    </FrameLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -143,73 +175,73 @@
                                 android:text="Quemadas"
                                 android:textColor="@color/text_secondary"/>
                         </LinearLayout>
+
+
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Botones de Acción Rápida -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:text="Resumen del Día"
-                    android:textAppearance="@style/TextAppearance.App.Headline2" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/mealsRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
-
-                <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.App.Button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    android:text="Agregar Comida"
-                    app:icon="@drawable/ic_food"/>
-
-                <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.App.Button.Secondary"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    android:text="Agregar Ejercicio"
-                    app:icon="@drawable/ic_exercise"/>
-            </LinearLayout>
-
             <!-- Resumen del Día -->
-            <com.google.android.material.card.MaterialCardView
-                style="@style/Widget.App.CardView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="Resumen del Día"
+                android:textAppearance="@style/TextAppearance.App.Headline2" />
 
-            </com.google.android.material.card.MaterialCardView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mealsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNav"
+    <!-- Botones y Bottom Navigation -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/surface"
-        style="@style/Widget.App.BottomNavigationView"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_navigation_menu"/>
+        android:orientation="vertical">
+
+        <!-- Contenedor de botones -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="@color/background">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addFoodButton"
+                style="@style/Widget.App.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Agregar Comida"
+                app:icon="@drawable/ic_food"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addExerciseButton"
+                style="@style/Widget.App.Button.Secondary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Agregar Ejercicio"
+                app:icon="@drawable/ic_exercise"/>
+        </LinearLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/surface"
+            style="@style/Widget.App.BottomNavigationView"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_navigation_menu"/>
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
