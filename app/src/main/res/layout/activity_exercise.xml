@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".FoodLogActivity">
+    tools:context=".ExerciseActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Registro de Comidas"
+            app:title="Ejercicios"
             app:titleTextAppearance="@style/TextAppearance.App.Headline2"
             app:titleCentered="true"/>
     </com.google.android.material.appbar.AppBarLayout>
@@ -34,7 +34,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Tarjeta de Comidas del Día -->
+            <!-- Tarjeta de Resumen -->
             <com.google.android.material.card.MaterialCardView
                 style="@style/Widget.App.CardView"
                 android:layout_width="match_parent"
@@ -44,34 +44,36 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Comidas de Hoy"
-                        android:textAppearance="@style/TextAppearance.App.Headline2"
-                        android:layout_marginBottom="16dp"/>
-
-                    <!-- Lista de Comidas -->
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/mealsRecyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"/>
+                        android:text="Calorías Quemadas Hoy"
+                        android:textAppearance="@style/TextAppearance.App.Headline2"/>
 
                     <TextView
-                        android:id="@+id/emptyMealsText"
-                        android:layout_width="match_parent"
+                        android:id="@+id/caloriesBurnedToday"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="No hay comidas registradas hoy"
-                        android:gravity="center"
-                        android:padding="16dp"
-                        android:visibility="gone"/>
+                        android:layout_gravity="center"
+                        android:layout_marginTop="16dp"
+                        android:text="0"
+                        android:textSize="48sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/calories_burned"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="kcal"
+                        android:textColor="@color/text_secondary"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Catálogo de Alimentos Comunes -->
+            <!-- Tarjeta de Ejercicios del Día -->
             <com.google.android.material.card.MaterialCardView
                 style="@style/Widget.App.CardView"
                 android:layout_width="match_parent"
@@ -81,32 +83,42 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Alimentos Comunes"
+                        android:text="Ejercicios Realizados"
                         android:textAppearance="@style/TextAppearance.App.Headline2"
                         android:layout_marginBottom="16dp"/>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/commonFoodsRecyclerView"
+                        android:id="@+id/exercisesRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:nestedScrollingEnabled="false"/>
+
+                    <TextView
+                        android:id="@+id/emptyExercisesText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="No hay ejercicios registrados hoy"
+                        android:gravity="center"
+                        android:padding="16dp"
+                        android:visibility="gone"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/addMealFab"
+        android:id="@+id/addExerciseFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:text="Agregar Comida"
+        android:text="Agregar Ejercicio"
         app:icon="@drawable/ic_add"
         app:iconTint="@color/surface"/>
 
