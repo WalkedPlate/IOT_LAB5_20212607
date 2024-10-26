@@ -23,180 +23,188 @@
             app:titleCentered="true"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="80dp"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <!-- Tarjeta de Resumen de Calorías -->
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.App.CardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_marginBottom="16dp">
 
-            <!-- Tarjeta de Resumen de Calorías -->
-            <com.google.android.material.card.MaterialCardView
-                style="@style/Widget.App.CardView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Calorías de Hoy"
+                    android:textAppearance="@style/TextAppearance.App.Headline2"
+                    android:layout_marginBottom="16dp"/>
+
+                <!-- Círculo de progreso con texto central -->
+                <FrameLayout
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center">
+
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/caloriesProgress"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_gravity="center"
+                        android:progress="65"
+                        app:indicatorSize="200dp"
+                        app:trackThickness="16dp"
+                        app:trackColor="@color/divider"
+                        app:indicatorColor="@color/calories_remaining"/>
+
+                    <!-- Texto central -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/circleEffectiveCalories"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1,106"
+                            android:textSize="32sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/calories_remaining"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="kcal"
+                            android:textSize="14sp"
+                            android:textColor="@color/text_secondary"/>
+                    </LinearLayout>
+                </FrameLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="8dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <!-- Calorías Consumidas -->
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Calorías de Hoy"
-                        android:textAppearance="@style/TextAppearance.App.Headline2"
-                        android:layout_marginBottom="16dp"/>
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
 
-                    <!-- Círculo de progreso con texto central -->
-                    <FrameLayout
-                        android:layout_width="200dp"
-                        android:layout_height="200dp"
-                        android:layout_gravity="center">
-
-                        <com.google.android.material.progressindicator.CircularProgressIndicator
-                            android:id="@+id/caloriesProgress"
-                            android:layout_width="200dp"
-                            android:layout_height="200dp"
-                            android:layout_gravity="center"
-                            android:progress="65"
-                            app:indicatorSize="200dp"
-                            app:trackThickness="16dp"
-                            app:trackColor="@color/divider"
-                            app:indicatorColor="@color/calories_remaining"/>
-
-                        <!-- Texto central -->
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/consumedCalories"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_gravity="center"
-                            android:gravity="center">
+                            android:text="1,456"
+                            android:textSize="24sp"
+                            android:textColor="@color/calories_consumed"
+                            android:textStyle="bold"/>
 
-                            <TextView
-                                android:id="@+id/circleEffectiveCalories"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="1,106"
-                                android:textSize="32sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/calories_remaining"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="kcal"
-                                android:textSize="14sp"
-                                android:textColor="@color/text_secondary"/>
-                        </LinearLayout>
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginBottom="8dp">
-
-                        <!-- Calorías Consumidas -->
-                        <LinearLayout
-                            android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center">
-
-                            <TextView
-                                android:id="@+id/consumedCalories"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="1,456"
-                                android:textSize="24sp"
-                                android:textColor="@color/calories_consumed"
-                                android:textStyle="bold"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Consumidas"
-                                android:textColor="@color/text_secondary"/>
-                        </LinearLayout>
-
-                        <!-- Calorías Objetivo -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center">
-
-                            <TextView
-                                android:id="@+id/goalCalories"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="2,000"
-                                android:textSize="24sp"
-                                android:textColor="@color/calories_remaining"
-                                android:textStyle="bold"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Objetivo"
-                                android:textColor="@color/text_secondary"/>
-                        </LinearLayout>
-
-                        <!-- Calorías Quemadas -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center">
-
-                            <TextView
-                                android:id="@+id/burnedCalories"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="350"
-                                android:textSize="24sp"
-                                android:textColor="@color/calories_burned"
-                                android:textStyle="bold"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Quemadas"
-                                android:textColor="@color/text_secondary"/>
-                        </LinearLayout>
-
-
+                            android:text="Consumidas"
+                            android:textColor="@color/text_secondary"/>
                     </LinearLayout>
+
+                    <!-- Calorías Objetivo -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/goalCalories"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2,000"
+                            android:textSize="24sp"
+                            android:textColor="@color/calories_remaining"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Objetivo"
+                            android:textColor="@color/text_secondary"/>
+                    </LinearLayout>
+
+                    <!-- Calorías Quemadas -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/burnedCalories"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="350"
+                            android:textSize="24sp"
+                            android:textColor="@color/calories_burned"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Quemadas"
+                            android:textColor="@color/text_secondary"/>
+                    </LinearLayout>
+
+
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-            <!-- Resumen del Día -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="Resumen del Día"
-                android:textAppearance="@style/TextAppearance.App.Headline2" />
+        <!-- Contenido Scrolleable -->
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="80dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/mealsRecyclerView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="Resumen del Día"
+                    android:textAppearance="@style/TextAppearance.App.Headline2" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/mealsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
 
     <!-- Botones y Bottom Navigation -->
     <LinearLayout

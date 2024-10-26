@@ -1,6 +1,10 @@
 package com.example.iot_lab5_20212607;
 
+import static android.Manifest.permission.POST_NOTIFICATIONS;
+
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -33,6 +37,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(this);
         checkFirstTimeUser();
 
+        askNotificationPermission();
         setupToolbar();
         setupDropdowns();
         setupActivityMultipliers();
@@ -147,7 +152,6 @@ public class UserRegistrationActivity extends AppCompatActivity {
             }
         }
 
-        // [resto de validaciones igual...]
 
         return isValid;
     }
@@ -222,6 +226,18 @@ public class UserRegistrationActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+
+    private void askNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(POST_NOTIFICATIONS)
+                    == PackageManager.PERMISSION_DENIED) {
+                requestPermissions(
+                        new String[]{POST_NOTIFICATIONS},
+                        101
+                );
+            }
+        }
     }
 
     @Override

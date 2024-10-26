@@ -12,12 +12,19 @@ import com.example.iot_lab5_20212607.model.Exercise;
 import com.example.iot_lab5_20212607.model.Meal;
 import com.example.iot_lab5_20212607.model.User;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "CaloriesTrackerDB";
     private static final int DATABASE_VERSION = 1;
+
+    // Tabla de frases motivacionales
+    public static final String TABLE_MOTIVATIONAL_PHRASES = "motivational_phrases";
+    public static final String COLUMN_PHRASE = "phrase";
 
     // Tabla de comidas
     public static final String TABLE_MEALS = "meals";
@@ -72,6 +79,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     COLUMN_TARGET_CALORIES + " REAL NOT NULL, " +
                     COLUMN_WEIGHT_GOAL + " TEXT NOT NULL);";
 
+    private static final String CREATE_TABLE_MOTIVATIONAL_PHRASES =
+            "CREATE TABLE " + TABLE_MOTIVATIONAL_PHRASES + " (" +
+                    COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_PHRASE + " TEXT NOT NULL);";
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -82,6 +94,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL(CREATE_TABLE_MEALS);
             db.execSQL(CREATE_TABLE_EXERCISES);
             db.execSQL(CREATE_TABLE_USER);
+            db.execSQL(CREATE_TABLE_MOTIVATIONAL_PHRASES);
+            insertDefaultPhrases(db);
         } catch (SQLiteException e) {
             Log.e("DatabaseHelper", "Error creating tables: " + e.getMessage());
         }
@@ -93,6 +107,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_MEALS);
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXERCISES);
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_MOTIVATIONAL_PHRASES);
             onCreate(db);
         } catch (SQLiteException e) {
             Log.e("DatabaseHelper", "Error upgrading database: " + e.getMessage());
@@ -315,7 +330,76 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
+    private void insertDefaultPhrases(SQLiteDatabase db) {
+        String[] defaultPhrases = {
+                "¡Sigue así! Vas por buen camino",
+                "Cada decisión saludable cuenta",
+                "Tu esfuerzo vale la pena",
+                "¡Mantén el buen trabajo!",
+                "Pequeños cambios, grandes resultados"
+        };
 
+        for (String phrase : defaultPhrases) {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_PHRASE, phrase);
+            db.insert(TABLE_MOTIVATIONAL_PHRASES, null, values);
+        }
+    }
+
+    // Métodos CRUD para frases motivacionales
+    public long addMotivationalPhrase(String phrase) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_PHRASE, phrase);
+        return db.insert(TABLE_MOTIVATIONAL_PHRASES, null, values);
+    }
+
+    public void updateMotivationalPhrase(long id, String phrase) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_PHRASE, phrase);
+        db.update(TABLE_MOTIVATIONAL_PHRASES, values,
+                COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
+    }
+
+    public void deleteMotivationalPhrase(long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_MOTIVATIONAL_PHRASES,
+                COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
+    }
+
+    public List<String> getAllMotivationalPhrases() {
+        List<String> phrases = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_MOTIVATIONAL_PHRASES,
+                new String[]{COLUMN_PHRASE},
+                null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                phrases.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return phrases;
+    }
+
+
+    public boolean hasRegisteredMealsToday() {
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                .format(new Date());
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_MEALS,
+                new String[]{COLUMN_ID},
+                COLUMN_DATE + " = ?",
+                new String[]{currentDate},
+                null, null, null);
+
+        boolean hasMeals = cursor.getCount() > 0;
+        cursor.close();
+        return hasMeals;
+    }
 
 
 

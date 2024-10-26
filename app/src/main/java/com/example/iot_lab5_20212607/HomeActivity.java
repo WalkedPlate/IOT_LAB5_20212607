@@ -1,8 +1,15 @@
 package com.example.iot_lab5_20212607;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteException;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,9 +27,12 @@ import com.example.iot_lab5_20212607.databinding.ActivityHomeBinding;
 import com.example.iot_lab5_20212607.dialog.AddMealDialog;
 import com.example.iot_lab5_20212607.model.Meal;
 import com.example.iot_lab5_20212607.model.User;
+import com.example.iot_lab5_20212607.notification.NotificationHelper;
+import com.example.iot_lab5_20212607.notification.NotificationReceiver;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -34,6 +44,11 @@ public class HomeActivity extends AppCompatActivity {
     private MealAdapter mealAdapter;
     private DatabaseHelper databaseHelper;
     private String currentDate;
+    private NotificationHelper notificationHelper;
+
+    private Handler handler;
+    private Runnable mealCheckRunnable;
+    private static final int CHECK_INTERVAL = 30000; // Cada 30 segundos xd
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +66,17 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         databaseHelper = new DatabaseHelper(this);
+        notificationHelper = new NotificationHelper(this);
         currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+        handler = new Handler(Looper.getMainLooper());
+        startPeriodicMealCheck();
 
         setupWindowInsets();
         setupBottomNavigation();
         setupRecyclerView();
         setupButtons();
+        setupMealCheck();
         loadData();
     }
 
@@ -77,6 +97,7 @@ public class HomeActivity extends AppCompatActivity {
                 @Override
                 public void onMealAdded() {
                     loadData(); // Recargar datos cuando se agrega una comida
+                    checkCaloriesExcess(); // Verificar exceso después de agregar comida
                 }
             });
             dialog.show(getSupportFragmentManager(), "AddMealDialog");
@@ -153,15 +174,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    private List<Meal> getMockMeals() {
-        List<Meal> meals = new ArrayList<>();
-        meals.add(new Meal("Desayuno", "8:00 AM", 350, "new Date()"));
-        meals.add(new Meal("Almuerzo", "1:00 PM", 650,"a"));
-        meals.add(new Meal("Merienda", "4:00 PM", 156,"a"));
-        meals.add(new Meal("Cena", "8:00 PM", 300,"a"));
-        return meals;
-    }
-
     private void setupBottomNavigation() {
         binding.bottomNav.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -194,17 +206,107 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    private void checkCaloriesExcess() {
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+        // Obtener calorías consumidas y quemadas
+        int consumedCalories = databaseHelper.getTotalCaloriesByDate(currentDate);
+        int burnedCalories = databaseHelper.getTotalCaloriesBurnedByDate(currentDate);
+        int effectiveCalories = consumedCalories - burnedCalories;
+
+        // Obtener meta de calorías del usuario
+        User user = databaseHelper.getUserData();
+        if (user != null) {
+            int goalCalories = (int) user.getTargetCalories();
+
+            // Guardar el último estado de exceso para evitar notificaciones repetidas
+            SharedPreferences prefs = getSharedPreferences("calories_prefs", MODE_PRIVATE);
+            boolean wasExceeded = prefs.getBoolean("calories_exceeded_" + currentDate, false);
+
+            // Verificar si excedió el límite y no se había notificado antes
+            if (effectiveCalories > goalCalories && !wasExceeded) {
+                int excess = effectiveCalories - goalCalories;
+                notificationHelper.showCaloriesAlert(excess);
+
+                // Guardar que ya se notificó el exceso hoy
+                prefs.edit()
+                        .putBoolean("calories_exceeded_" + currentDate, true)
+                        .apply();
+            }
+        }
+    }
+
+    private void startPeriodicMealCheck() {
+        mealCheckRunnable = new Runnable() {
+            @Override
+            public void run() {
+                // Verificar si hay comidas registradas
+                if (!databaseHelper.hasRegisteredMealsToday()) {
+                    notificationHelper.showNoMealsRegisteredAlert();
+                }
+                // Programar la siguiente verificación
+                handler.postDelayed(this, CHECK_INTERVAL);
+            }
+        };
+
+        // Iniciar el ciclo de verificación
+        handler.post(mealCheckRunnable);
+    }
+
+
+    private void setupMealCheck() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        intent.setAction("CHECK_MEALS");
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                105,
+                intent,
+                PendingIntent.FLAG_IMMUTABLE
+        );
+
+        // Programar para verificar cada 4 horas después del mediodía
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+        }
+
+        alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(),
+                4 * 60 * 60 * 1000, // 4 horas
+                pendingIntent
+        );
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Detener las verificaciones cuando la actividad no está visible
+        if (handler != null && mealCheckRunnable != null) {
+            handler.removeCallbacks(mealCheckRunnable);
+        }
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        loadData(); // Recargar datos cuando se vuelve a la actividad
+        loadData();
+        startPeriodicMealCheck();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        // Limpiar recursos
+        if (handler != null && mealCheckRunnable != null) {
+            handler.removeCallbacks(mealCheckRunnable);
+        }
         binding = null;
     }
-
 }
