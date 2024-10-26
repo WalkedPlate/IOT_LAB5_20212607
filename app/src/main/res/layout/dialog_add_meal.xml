@@ -12,8 +12,74 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Agregar Comida"
-        android:textAppearance="@style/TextAppearance.App.Headline2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_marginBottom="16dp"/>
+
+    <!-- Sección de Alimentos Comunes -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alimentos Comunes"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_marginBottom="8dp"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/commonFoodsChipGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipArroz"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Arroz (130 kcal)"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipPollo"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pollo (165 kcal)"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipEnsalada"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ensalada César (45 kcal)"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipPan"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pan Integral (75 kcal)"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipFruta"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manzana (60 kcal)"/>
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <!-- Separador -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="O ingresa manualmente"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_marginBottom="8dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/mealNameLayout"

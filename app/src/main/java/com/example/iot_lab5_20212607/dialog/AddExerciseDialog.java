@@ -1,4 +1,4 @@
-package com.example.iot_lab5_20212607.adapter;
+package com.example.iot_lab5_20212607.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

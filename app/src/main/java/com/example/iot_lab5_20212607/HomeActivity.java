@@ -14,13 +14,12 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.iot_lab5_20212607.SQLite.DatabaseHelper;
-import com.example.iot_lab5_20212607.adapter.AddExerciseDialog;
+import com.example.iot_lab5_20212607.dialog.AddExerciseDialog;
 import com.example.iot_lab5_20212607.adapter.MealAdapter;
 import com.example.iot_lab5_20212607.databinding.ActivityHomeBinding;
 import com.example.iot_lab5_20212607.dialog.AddMealDialog;
 import com.example.iot_lab5_20212607.model.Meal;
 import com.example.iot_lab5_20212607.model.User;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

@@ -6,6 +6,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
 import android.view.Window;
 
 import androidx.annotation.NonNull;
@@ -15,15 +18,30 @@ import androidx.fragment.app.DialogFragment;
 import com.example.iot_lab5_20212607.R;
 import com.example.iot_lab5_20212607.SQLite.DatabaseHelper;
 import com.example.iot_lab5_20212607.databinding.DialogAddMealBinding;
+import com.example.iot_lab5_20212607.model.CommonFood;
 import com.example.iot_lab5_20212607.model.Meal;
+import com.google.android.material.chip.Chip;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class AddMealDialog extends DialogFragment {
     private DialogAddMealBinding binding;
     private DatabaseHelper databaseHelper;
     private OnMealAddedListener listener;
+
+    // Alimentos comunes
+    private final Map<Integer, CommonFood> commonFoods = new HashMap<Integer, CommonFood>() {{
+        put(R.id.chipArroz, new CommonFood("Arroz (1 taza)", 130));
+        put(R.id.chipPollo, new CommonFood("Pollo (100g)", 165));
+        put(R.id.chipEnsalada, new CommonFood("Ensalada César", 45));
+        put(R.id.chipPan, new CommonFood("Pan Integral", 75));
+        put(R.id.chipFruta, new CommonFood("Manzana", 60));
+    }};
+
+
 
     public interface OnMealAddedListener {
         void onMealAdded();
@@ -53,14 +71,61 @@ public class AddMealDialog extends DialogFragment {
                 .setView(binding.getRoot())
                 .create();
 
-        // Asegurar que el diálogo ocupe el ancho correcto
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         }
 
+        setupCommonFoodsChips();
         setupButtons(dialog);
         return dialog;
+    }
+
+    private void setupCommonFoodsChips() {
+        // Configurar el listener para el ChipGroup
+        binding.commonFoodsChipGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId != View.NO_ID) {
+                CommonFood selectedFood = commonFoods.get(checkedId);
+                if (selectedFood != null) {
+                    // Autocompletar los campos con la comida seleccionada
+                    binding.mealNameInput.setText(selectedFood.getName());
+                    binding.caloriesInput.setText(String.valueOf(selectedFood.getCalories()));
+                }
+            }
+        });
+
+        // Limpiar selección cuando se modifica manualmente
+        binding.mealNameInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Si el usuario modifica el texto manualmente, deseleccionar el chip
+                if (binding.commonFoodsChipGroup.getCheckedChipId() != View.NO_ID) {
+                    binding.commonFoodsChipGroup.clearCheck();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        binding.caloriesInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Si el usuario modifica las calorías manualmente, deseleccionar el chip
+                if (binding.commonFoodsChipGroup.getCheckedChipId() != View.NO_ID) {
+                    binding.commonFoodsChipGroup.clearCheck();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
     }
 
     private void setupButtons(AlertDialog dialog) {
@@ -76,6 +141,7 @@ public class AddMealDialog extends DialogFragment {
             }
         });
     }
+
 
     private boolean validateInputs() {
         boolean isValid = true;
@@ -109,6 +175,7 @@ public class AddMealDialog extends DialogFragment {
 
         return isValid;
     }
+
 
     private void saveMeal() {
         String mealName = binding.mealNameInput.getText().toString().trim();
